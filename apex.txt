@@ -1,0 +1,25 @@
+public class Calculator {
+	 public static void calculate(List<Calculator_Input__c> inputs) {
+        for (Calculator_Input__c input : inputs) {
+            if (input.Operator__c == '+') {
+                input.Result__c = input.Operand1__c + input.Operand2__c;
+            } else if (input.Operator__c == '-') {
+                input.Result__c = input.Operand1__c - input.Operand2__c;
+            } else if (input.Operator__c == '*') {
+                input.Result__c = input.Operand1__c * input.Operand2__c;
+            } else if (input.Operator__c == '/') {
+                if (input.Operand2__c != 0) {
+                    input.Result__c = input.Operand1__c / input.Operand2__c;
+                } else {
+                    input.Result__c = null; // Handle division by zero
+                }
+            } else {
+                input.Result__c = null; // Handle invalid operator
+            }
+        }
+    }
+}
+
+trigger CalculatorTrigger on Calculator_Input__c (before insert) {
+	Calculator.calculate(Trigger.new);
+}
